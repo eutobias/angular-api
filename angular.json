@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "moviedb-app": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "moviedb-app"
+    }
+  },
+  "defaultProject": "moviedb-app",
+  "cli": {
+    "analytics": "e68385e2-fac1-4395-88cb-2bfe32b0607c"
+  }
 }

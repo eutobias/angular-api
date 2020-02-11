@@ -16,6 +16,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
   private _isAuthenticated:boolean = false;
   public isAuthenticaded(): boolean {
+    const token = window.sessionStorage.getItem('requestToken')
+    if (token) {
+      this.setLoginSession(token)
+    }
+
     return this._isAuthenticated
   }
 
@@ -40,9 +45,14 @@ export class AuthService {
       this.httpOptions).toPromise()
 
     if (request.success) {
-      this.requestToken = request.request_token
-      this._isAuthenticated = true;
+      this.setLoginSession(request.request_token)
       this.router.navigate(['home'])
     }
+  }
+
+  private setLoginSession(request_token) {
+    this.requestToken = request_token
+    this._isAuthenticated = true;
+    window.sessionStorage.setItem('requestToken', request_token)
   }
 }

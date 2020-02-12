@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   API_KEY: 'aa107e9423a644c2a755e0e320ac3800',
   API_URL: 'https://api.themoviedb.org/3',
+  API_TOKEN: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYTEwN2U5NDIzYTY0NGMyYTc1NWUwZTMyMGFjMzgwMCIsInN1YiI6IjVlNDFhMTc3M2RkMTI2MDAxNDU2M2QxMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.L9Hw_fVoi_y-a52kBbsc34Mg-q3YcQUpt_KyFqByu8Q'
 };
 
 /*

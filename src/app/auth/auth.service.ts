@@ -8,51 +8,54 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  }
-
   constructor(private http: HttpClient, private router: Router) { }
-  private _isAuthenticated:boolean = false;
+
+  private _isAuthenticated: boolean = false;
+
   public isAuthenticaded(): boolean {
     const token = window.sessionStorage.getItem('requestToken')
     if (token) {
-      this.setLoginSession(token)
+      this.setLoginSession()
     }
 
     return this._isAuthenticated
   }
 
   private requestToken: string = null;
-  public async createRequestToken() {
-    if (this.requestToken)
-      return
+  public async createRequestToken() { }
 
-    const request: any = await this.http.get(AppService.getApiUrl('/authentication/token/new')).toPromise()
+  public async login(username, password) {
+    const reqToken: any = await this.http.get(
+      AppService.getApiUrl('/authentication/token/new')
+    ).toPromise()
 
-    if (request.success)
-      this.requestToken = request.request_token
-  }
 
-  public async login(username: string, password: string) {
-    const data = {
-      username, password, request_token: this.requestToken
-    }
-    const request: any = await this.http.post(
+    const reqLogin: any = await this.http.post(
       AppService.getApiUrl('/authentication/token/validate_with_login'),
-      JSON.stringify(data),
-      this.httpOptions).toPromise()
+      JSON.stringify({
+        username,
+        password,
+        request_token: reqToken.request_token
+      })
+    ).toPromise()
 
-    if (request.success) {
-      this.setLoginSession(request.request_token)
+    if (reqLogin.success) {
+      const reqSession: any = await this.http.post(
+        AppService.getApiUrl('/authentication/session/new'),
+        JSON.stringify({
+          request_token: reqToken.request_token
+        })
+      ).toPromise()
+
+      window.sessionStorage.setItem('requestToken', reqToken.request_token)
+      window.sessionStorage.setItem('sessionId', reqSession.session_id)
+
+      this.setLoginSession()
       this.router.navigate(['home'])
     }
   }
 
-  private setLoginSession(request_token) {
-    this.requestToken = request_token
+  private setLoginSession() {
     this._isAuthenticated = true;
-    window.sessionStorage.setItem('requestToken', request_token)
   }
 }

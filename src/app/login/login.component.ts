@@ -22,13 +22,14 @@ export class LoginComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.auth.createRequestToken()
   }
 
   onSubmit(data) {
-    if (this.loginForm.value.login && this.loginForm.value.password)
+    const login = this.loginForm.value.login
+    const password = this.loginForm.value.password
+    if (login && password)
     {
-      this.auth.login(this.loginForm.value.login, this.loginForm.value.password)
+      this.auth.login(login, password)
       this.loginForm.reset()
     }
     return

@@ -22,7 +22,6 @@ const routes: Routes = [
     canActivate: [AuthGuardsService]
   },
   { path: 'login', component: LoginComponent },
-
   { path: '**', redirectTo: 'home' }
 ];
 

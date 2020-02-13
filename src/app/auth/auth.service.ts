@@ -29,7 +29,6 @@ export class AuthService {
       AppService.getApiUrl('/authentication/token/new')
     ).toPromise()
 
-
     const reqLogin: any = await this.http.post(
       AppService.getApiUrl('/authentication/token/validate_with_login'),
       JSON.stringify({

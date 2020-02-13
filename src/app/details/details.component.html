@@ -1,1 +1,44 @@
-<p>details works!</p>
+<app-header></app-header>
+
+<ng-template [ngIf]="movie.id">
+<main>
+  <div class="row breadcrumb">
+    <a routerLink="/home">Home</a>
+    <span class="sep">&raquo;</span>
+    <span>{{movie.title}}</span>
+  </div>
+
+  <div class="row movie-details-wrapper">
+    <div class="movie-poster">
+      <img src={{getPosterUrl(movie.poster_path)}}>
+    </div>
+    <div class="column movie-info-wrapper">
+      <h3 class="movie-title">{{movie.title}} <span>({{movie.release_date | date:'yyyy'}})</span></h3>
+
+      <div class="row movie-rate-wrapper">
+        <p>{{getAverageRate(movie.vote_average)}} avaliação dos usuários</p>
+        <app-bookmark-button class="bookmark-button" movieId={{movie.id}}></app-bookmark-button>
+      </div>
+
+      <h4 class="sinopse">Sinopse</h4>
+      <p>{{movie.overview}}</p>
+
+      <h4 class="genre">Gêneros</h4>
+      <ul class="row movie-genre-wrapper">
+        <li *ngFor="let genre of movie.genres" class="row">
+          <p>{{genre.name}}</p>
+        </li>
+      </ul>
+
+      <h4 class="production">Produção</h4>
+      <ul class="row movie-team-wrapper">
+        <li *ngFor="let team of movie.production_companies" class="row movie-team-item">
+          <p>{{team.name}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</main>
+</ng-template>
+
+<app-footer></app-footer>

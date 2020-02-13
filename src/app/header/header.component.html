@@ -1,8 +1,48 @@
-<header>
+<header class="row header">
 
-  <div class="profile">
-  <h3>{{username}}</h3>
-  <img src={{avatar}} />
+  <h1 class="logo">TMDB API</h1>
+
+  <a class="mobile-menu" (click)="toggleMenu()">
+    <svg version="1.1" id="mobile-menu-icon" x="0px"
+      y="0px" viewBox="0 0 512 512">
+      <g>
+        <g>
+          <g>
+            <circle cx="256" cy="256" r="64" />
+            <circle cx="256" cy="448" r="64" />
+            <circle cx="256" cy="64" r="64" />
+          </g>
+        </g>
+      </g>
+    </svg>
+  </a>
+
+
+  <div class="header-content-wrapper" [ngClass]="{'visible' : menuVisible}">
+    <div class="row profile">
+      <h3 class="user"><span class="name">{{name}}</span> <span class="username">{{username}}</span></h3>
+      <img class="avatar" src={{avatar}} />
+    </div>
+
+    <nav class="navigation">
+      <ul>
+        <li><a routerLink="/home">Home</a></li>
+        <li class="dropdown-bookmarks">
+          <a class="toggle-dropdown" (click)="toggleDropdown()">Favoritos ({{bookmarkCount}})</a>
+          <ng-template [ngIf]="showBookmarksMenu">
+            <div class="dropdown-bookmarks-wrapper">
+              <ul>
+                <li *ngFor="let movie of bookmarkList" class="row">
+                  <img src={{getPosterUrl(movie.poster_path)}} />
+                  <p>{{movie.title}}</p>
+                </li>
+                <li class="show-bookmarks-button"><a routerLink="/bookmarks">Todos favoritos...</a></li>
+              </ul>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+    </nav>
   </div>
 
 </header>

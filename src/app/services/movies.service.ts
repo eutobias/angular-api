@@ -17,6 +17,18 @@ export class MoviesService {
       .pipe(retry(2), catchError(this.handleError))
   }
 
+  getMovie(id): Observable<Movies> {
+    return this.http
+      .get<Movies>(AppService.getApiUrl(`/movie/${id}`))
+      .pipe(retry(2), catchError(this.handleError))
+  }
+
+  getBookmarkedMovies(accountId): Observable<Movies[]> {
+    return this.http
+      .get<Movies[]>(AppService.getAuthenticatedUrl(`/account/${accountId}/favorite/movies`))
+      .pipe(retry(2), catchError(this.handleError))
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = ''
     if (error.error instanceof ErrorEvent) {
@@ -27,5 +39,11 @@ export class MoviesService {
     }
     console.log(errorMessage)
     return throwError(errorMessage)
+  }
+
+  searchMovies(query):Observable<Movies> {
+    return this.http
+      .get<Movies>(AppService.getSearchUrl(`/search/movie`, query))
+      .pipe(retry(2), catchError(this.handleError))
   }
 }

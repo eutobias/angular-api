@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
       this.auth.login(login, password)
       this.loginForm.reset()
     }
+
     return
   }
 

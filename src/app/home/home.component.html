@@ -1,6 +1,43 @@
 <app-header></app-header>
-<ul>
-  <li *ngFor="let movie of movies">
-    {{movie.original_title}}
-  </li>
-</ul>
+<main>
+  <div class="row filters-wrapper">
+    <form class="row search-wrapper" [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.value)">
+        <label for="query">
+          Busca
+        </label>
+        <input id="query" type="text" formControlName="query">
+    </form>
+  </div>
+
+  <ul class="row movies-container">
+    <li *ngFor="let movie of movies" class="movie-item">
+      <article class="row">
+        <div class="movie-poster">
+          <img src={{getPosterUrl(movie.poster_path)}} alt={{movie.title}}>
+        </div>
+
+        <div class="column movie-text-wrapper">
+
+          <div class="row movie-title-wrapper">
+            <p class="movie-rate">{{getAverageRate(movie.vote_average)}}</p>
+            <h4 class="column movie-title">
+              <span class="title">{{movie.title}}</span>
+              <span class="release-date">{{movie.release_date | date:'fullDate':'-0300':'pt'}}</span>
+            </h4>
+            <div class="movie-save-bookmark">
+              <app-bookmark-button class="save-bookmark-button" movieId={{movie.id}}></app-bookmark-button>
+            </div>
+          </div>
+
+          <div class="movie-description">{{movie.overview}}</div>
+
+          <a class="movie-details-button" routerLink="/details/{{movie.id}}">Mais
+            informação...</a>
+
+        </div>
+      </article>
+    </li>
+  </ul>
+
+</main>
+<app-footer></app-footer>

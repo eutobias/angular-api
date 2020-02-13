@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -11,6 +11,12 @@ import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { DetailsComponent } from './details/details.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { FooterComponent } from './footer/footer.component';
+
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { BookmarkButtonComponent } from './bookmark-button/bookmark-button.component';
+registerLocaleData(localePt, 'pt');
 
 @NgModule({
   declarations: [
@@ -19,7 +25,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     HomeComponent,
     BookmarksComponent,
     DetailsComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent,
+    BookmarkButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +39,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
-  },],
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

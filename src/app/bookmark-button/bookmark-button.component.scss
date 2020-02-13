@@ -1,0 +1,11 @@
+.bookmark-button-icon {
+  cursor: pointer;
+  display: block;
+  width: 30px;
+  height: 30px;
+  opacity: 0.3;
+
+  &.selected {
+    opacity: 1;
+  }
+}

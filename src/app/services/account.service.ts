@@ -3,18 +3,41 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { AppService } from '../app.service';
 import { retry, catchError } from 'rxjs/operators';
-import { TMDAccount } from '../models/account';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
+  account: any;
+  bookmarks: any;
+
   constructor(private http: HttpClient) { }
 
-  getAccount(): Observable<TMDAccount> {
-    return this.http
-      .get<TMDAccount>(AppService.getAuthenticatedUrl('/account'))
+  getAccount() {
+    if (this.account)
+      return Promise.resolve(this.account)
+
+    return this.http.get(AppService.getAuthenticatedUrl('/account')).toPromise()
+  }
+
+  getBookmarksList(): Observable<any> {
+    if (this.account) {
+      const accountId = this.account.id
+      return this.http
+        .get(AppService.getAuthenticatedUrl(`/account/${accountId}/favorite/movies`))
+        .pipe(retry(1), catchError(this.handleError))
+    }
+  }
+
+  bookmarkMovie(movieId, favorite) {
+    return this.http.post(
+      AppService.getAuthenticatedUrl(`/account/${this.account.id}/favorite`),
+      JSON.stringify({
+        "media_type": "movie",
+        "media_id": movieId,
+        "favorite": favorite
+      }))
       .pipe(retry(1), catchError(this.handleError))
   }
 
